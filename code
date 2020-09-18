@@ -1,0 +1,757 @@
+# DF VSG NEW WAVE
+
+
+data_jun_25 <- read_dta("ns20200625.dta")
+data_jun_18 <- read_dta("ns20200618.dta")
+data_jun_11 <- read_dta("ns20200611.dta")
+data_jun_4 <- read_dta("ns20200604.dta")
+data_may_28 <- read_dta("ns20200528.dta")
+
+
+# add date column to each dataset
+
+data_jun_25 <- data_jun_25 %>%
+  mutate(date = "06/25/20")
+
+
+data_jun_25$date <- mdy(data_jun_25$date)
+data_jun_25$date
+
+
+data_jun_18 <- data_jun_18 %>%
+  mutate(date = "06/18/20")
+
+
+data_jun_18$date <- mdy(data_jun_18$date)
+data_jun_18$date
+
+
+data_jun_11 <- data_jun_11 %>%
+  mutate(date = "06/11/20")
+
+
+data_jun_11$date <- mdy(data_jun_11$date)
+data_jun_11$date
+
+
+
+data_jun_4 <- data_jun_4 %>%
+  mutate(date = "06/04/20")
+
+
+data_jun_4$date <- mdy(data_jun_4$date)
+data_jun_4$date
+
+
+data_may_28 <- data_may_28 %>%
+  mutate(date = "05/28/20")
+
+
+data_may_28$date <- mdy(data_may_28$date)
+data_may_28$date
+
+
+data_jun_25 <- data_jun_25 %>%
+  mutate(date = "06/25/20")
+
+
+data_jun_25_mfa <- data_jun_25 %>%
+select(medicare_for_all, pid3, date)
+
+
+data_jun_18_mfa <- data_jun_18 %>%
+  select(medicare_for_all, pid3, date)
+
+
+data_jun_11_mfa <- data_jun_11 %>%
+  select(medicare_for_all, pid3, date)
+
+data_jun_4_mfa <- data_jun_4 %>%
+  select(medicare_for_all, pid3, date)
+
+data_may_28_mfa <- data_may_28 %>%
+  select(medicare_for_all, pid3, date)
+
+
+
+data_jun_25_mfa <- data_jun_25_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+data_jun_18_mfa <- data_jun_18_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+data_jun_11_mfa <- data_jun_11_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+data_jun_4_mfa <- data_jun_4_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+data_may_28_mfa <- data_may_28_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+ggplot(data_may_28_mfa, aes(medicare_for_all)) +
+  geom_bar(fill = "#0073C2FF") +
+  theme_minimal()
+
+# Find proportions who agree with m4a
+
+
+jun_25_trim <- data_jun_25_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+jun_25_trim
+
+465/(456+84)
+
+237/(237+291)
+
+281/(281+127)
+
+
+# jun 25: D %agree = .861, R = .449, I= .689
+
+
+
+
+jun_18_trim <- data_jun_18_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+jun_18_trim
+
+457/(457+122)
+239/(239+279)
+273/(273+144)
+# jun 18: D %agree = .861, R = .461, I= .654
+
+
+jun_11_trim <- data_jun_11_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+jun_11_trim
+533/(533+106)
+284/(284+282)
+320/(320+168)
+
+# jun 11: D %agree = .834, R = .501, I= .654
+
+
+
+
+
+jun_4_trim <- data_jun_4_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+jun_4_trim
+
+464/(464+144)
+214/(214+311)
+272/(272+126)
+
+# jun 4: D %agree = .763, R = .408, I= .683
+
+
+
+jun_may_28_trim <- data_may_28_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+jun_may_28_trim
+
+455/(455+82)
+191/(191+318)
+254/(254+128)
+
+# may 28: D %agree = .847, R = .375, I= .665
+
+
+
+# put all of this into a table
+
+
+
+new_agg <- read_csv("vsg_agg.csv")
+
+new_agg$date <- mdy(new_agg$date)
+
+
+
+new_agg_dem <- new_agg %>%
+  filter(party == "democrat")
+
+new_agg_dem 
+
+#### now go back and do this for the surveys before may 28 ####
+
+
+data_may_21 <- read_dta("ns20200521.dta")
+data_may_14 <- read_dta("ns20200514.dta")
+data_may_7 <- read_dta("ns20200507.dta")
+data_april_30 <- read_dta("ns20200430.dta")
+data_april_23 <- read_dta("ns20200423.dta")
+data_april_16 <- read_dta("ns20200416.dta")
+data_april_9 <- read_dta("ns20200409.dta")
+data_april_2 <- read_dta("ns20200402.dta")
+data_march_26 <- read_dta("ns20200326.dta")
+data_march_19 <- read_dta("ns20200319.dta")
+data_march_12 <- read_dta("ns20200312.dta")
+data_march_5 <- read_dta("ns20200305.dta")
+data_feb_27 <- read_dta("ns20200227.dta")
+data_feb_20 <- read_dta("ns20200220.dta")
+data_feb_13 <- read_dta("ns20200213.dta")
+data_feb_6 <- read_dta("ns20200206.dta")
+data_jan_23 <- read_dta("ns20200123.dta")
+data_jan_16 <- read_dta("ns20200116.dta")
+data_jan_9 <- read_dta("ns20200109.dta")
+data_jan_2 <- read_dta("ns20200102.dta")
+
+
+data_may_21_mfa <- data_may_21 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_may_21_mfa <- data_may_21_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+may_21_trim <- data_may_21_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+may_21_trim 
+
+514/(514+94)
+
+252/(252+268)
+
+250/(250+138)
+
+
+# may 21: D %agree = .845, R = .485, I= .644
+
+
+data_may_14_mfa <- data_may_14 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_may_14_mfa <- data_may_14_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+may_14_trim <- data_may_14_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+may_14_trim 
+
+461/(461+106)
+
+233/(233+372)
+
+291/(291+137)
+
+# may 14: D %agree = .813, R = .385, I= .68
+
+
+data_may_7_mfa <- data_may_7 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_may_7_mfa <- data_may_7_mfa %>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+may_7_trim <- data_may_7_mfa%>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+may_7_trim
+
+336/(336+81)
+
+160/(160+252)
+
+168/(168+97)
+
+# may 7: D %agree = .805, R = .388, I= .64
+
+data_april_30_mfa <- data_april_30 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_april_30_mfa <- data_april_30_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+april_30_trim <- data_april_30_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+april_30_trim
+
+491/(491+93)
+
+195/(195+311)
+
+279/(279+131)
+
+# april 30: D %agree = .841, R = .385, I= .68
+
+data_april_23_mfa <- data_april_23 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_april_23_mfa <- data_april_23_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+april_23_trim <- data_april_23_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+april_23_trim
+
+507/(507+85)
+
+226/(226+357)
+
+285/(285+137)
+
+# april 23: D %agree = .856, R = .388, I= .675
+
+data_april_16_mfa <- data_april_16 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_april_16_mfa <- data_april_16_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+april_16_trim <- data_april_16_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+april_16_trim
+
+444/(444+83)
+
+224/(224+324)
+
+221/(221+140)
+
+# april 16: D %agree = .843, R = .409, I= .612
+
+data_april_9_mfa <- data_april_9 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_april_9_mfa <- data_april_9_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+april_9_trim <- data_april_9_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+april_9_trim
+
+479/(479+84)
+
+230/(230+286)
+
+292/(292+140)
+
+# april 9 : D %agree = .850, R = .446, I= .676
+
+data_april_2_mfa <- data_april_2 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_april_2_mfa <- data_april_2_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+april_2_trim <- data_april_2_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+april_2_trim
+
+475/(475+106)
+
+234/(234+356)
+
+263/(263+130)
+
+# april 2: D %agree = .818, R = .4, I= .669
+
+data_march_26_mfa <- data_march_26 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_march_26_mfa <- data_march_26_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+march_26_trim <- data_march_26_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+march_26_trim
+
+511/(511+106)
+
+216/(216+310)
+
+285/(285+130)
+
+# march 26: D %agree = .828, R = .411, I= .687
+
+data_march_19_mfa <- data_march_19 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_march_19_mfa <- data_march_19_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+march_19_trim <- data_march_19_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+march_19_trim
+
+478/(478+88)
+
+191/(191+334)
+
+286/(286+145)
+
+# march 19: D %agree = .845, R = .364, I= .664
+
+data_march_12_mfa <- data_march_12 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_march_12_mfa <- data_march_12_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+march_12_trim <- data_march_12_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+march_12_trim
+
+462/(462+86)
+
+187/(187+260)
+
+290/(290+125)
+
+# march 12: D %agree = .843, R = .418, I= .699
+
+data_march_5_mfa <- data_march_5 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_march_5_mfa <- data_march_5_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+march_5_trim <- data_march_5_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+march_5_trim
+
+443/(443+108)
+
+194/(194+283)
+
+261/(261+134)
+
+# march 5: D %agree = .804, R = .407, I= .661
+
+data_feb_27_mfa <- data_feb_27 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_feb_27_mfa <- data_feb_27_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+feb_27_trim <- data_feb_27_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+feb_27_trim
+
+432/(432+92)
+
+196/(196+291)
+
+277/(277+128)
+
+# feb 27: D %agree = .824, R = .402, I= .684
+
+data_feb_20_mfa <- data_feb_20 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_feb_20_mfa <- data_feb_20_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+feb_20_trim <- data_feb_20_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+feb_20_trim
+
+480/(480+79)
+
+197/(197+294)
+
+261/(261+137)
+
+# feb 20: D %agree = .858, R = .401, I= .656
+
+data_feb_13_mfa <- data_feb_13 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_feb_13_mfa <- data_feb_13_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+feb_13_trim <- data_feb_13_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+feb_13_trim
+
+486/(486+73)
+
+206/(206+287)
+
+249/(249+117)
+
+# feb 13: D %agree = .869, R = .418, I= .68
+
+data_feb_6_mfa <- data_feb_6 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_feb_6_mfa <- data_feb_6_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+feb_6_trim <- data_feb_6_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+feb_6_trim
+
+459/(459+76)
+
+218/(218+311)
+
+279/(279+120)
+
+# feb 6: D %agree = .858, R = .412, I= .699
+
+data_jan_23_mfa <- data_jan_23 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_jan_23_mfa <- data_jan_23_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+jan_23_trim <- data_jan_23_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+jan_23_trim
+
+500/(500+89)
+
+175/(175+304)
+
+273/(273+130)
+
+# jan 23: D %agree = .849, R = .365, I= .677
+
+data_jan_16_mfa <- data_jan_16 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_jan_16_mfa <- data_jan_16_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+jan_16_trim <- data_jan_16_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+jan_16_trim
+
+451/(451+83)
+
+186/(186+281)
+
+287/(287+136)
+
+# jan 16: D %agree = .845, R = .398, I= .678
+
+data_jan_9_mfa <- data_jan_9 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_jan_9_mfa <- data_jan_9_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+jan_9_trim <- data_jan_9_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+jan_9_trim
+
+468/(468+86)
+
+177/(177+282)
+
+271/(271+142)
+
+# jan 9: D %agree = .845, R = .386, I= .656
+
+data_jan_2_mfa <- data_jan_2 %>%
+  dplyr::select(medicare_for_all, pid3)
+
+
+data_jan_2_mfa <- data_jan_2_mfa%>%
+  filter(pid3 != 4) %>%
+  filter(medicare_for_all != 888) %>%
+  filter(medicare_for_all != 999)
+
+
+
+jan_2_trim <- data_jan_2_mfa %>%
+  group_by(pid3) %>%
+  count(medicare_for_all)
+
+
+jan_2_trim
+
+437/(437+87)
+
+164/(164+300)
+
+296/(296+145)
+
+# jan 2: D %agree = .834, R = .353, I= .671
+
+
+
+
+#### plot ####
+
+
+
+
+ggplot(new_agg, aes(x=date, y = pct, group = party, color = party)) +
+  geom_line() + theme_linedraw()
